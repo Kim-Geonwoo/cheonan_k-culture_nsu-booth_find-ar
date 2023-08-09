@@ -2,100 +2,56 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-face-aframe.prod.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-	const list = ["glasses1", "glasses2", "hat1", "hat2", "earring"];
-	const visibles = [false, true, false, false, false];
-	const setVisible = (button, entities, visible) => {
-	  if (visible) {
-	    button.classList.add("selected");
-	  } else {
-	    button.classList.remove("selected");
-	  }
-	  entities.forEach((entity) => {
-	    entity.setAttribute("visible", visible);
-	  });
-	}
-	list.forEach((item, index) => {
-	  const button = document.querySelector("#" + item);
-	  const entities = document.querySelectorAll("." + item + "-entity");
-	  setVisible(button, entities, visibles[index]);
-	  button.addEventListener('click', () => {
-	    visibles[index] = !visibles[index];
-	    setVisible(button, entities, visibles[index]);
-	  });
-	});
-      })
-    </script>
-    <style>
-      body {
-        margin: 0;
-      }
-      .example-container {
-        overflow: hidden;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-      }
-      .options-panel {
-	position: fixed;
-	left: 0;
-	top: 0;
-	z-index: 2;
-      }
-      .options-panel img {
-	border: solid 2px;
-	width: 50px;
-	height: 50px;
-	object-fit: cover;
-	cursor: pointer;
-      }
-      .options-panel img.selected {
-	border-color: green;
-      }
-    </style>
+    <link type="text/css" href="/src/css/model-viewer.css" rel="stylesheet" />
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css" rel="stylesheet" />
+
   </head>
   <body>
-    <div class="example-container">
-      <div class="options-panel">
-	<img id="hat1" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.2/examples/face-tracking/assets/hat/thumbnail.png"/>
-	<img id="hat2" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.2/examples/face-tracking/assets/hat2/thumbnail.png"/>
-	<img id="glasses1" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.2/examples/face-tracking/assets/glasses/thumbnail.png"/>
-	<img id="glasses2" src="../../../src/img/item-squid/squid_dalgona.jpeg"/>
-	<img id="earring" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.2/examples/face-tracking/assets/earring/thumbnail.png"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+    <div>
+      <div class="flex justify-end overflow-hidden pt-4 px-4">
+
+        <a
+        class="group flex items-center justify-between gap-2 rounded-lg border-1 border-indigo-600 bg-indigo-600 px-3 py-2 transition-colors hover:bg-transparent focus:outline-none focus:ring"
+        href="../pages/parasite-inven.html"
+      >
+        <span
+          class="font-medium text-white transition-colors group-hover:text-indigo-600 group-active:text-indigo-500"
+        >
+          나가기
+        </span>
+      
+        <span
+          class="shrink-0 rounded-full border border-current bg-white p-0.5 text-indigo-600 group-active:text-indigo-500"
+        >
+          <svg
+            class="h-5 w-5 rtl:rotate-180"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
+          </svg>
+        </span>
+      </a>
+
       </div>
-      <a-scene mindar-face="filterMinCF:0.1; filterBeta: 10" embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-        <a-assets>
-          <a-asset-item id="glassesModel2" src="/src/3d-model/squid/squid_dalgona-3d.glb"></a-asset-item>
-          <a-asset-item id="hatModel2" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.2/examples/face-tracking/assets/hat2/scene.gltf"></a-asset-item>
-          <a-asset-item id="earringModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.2/examples/face-tracking/assets/earring/scene.gltf"></a-asset-item>
-        </a-assets>
-        <a-camera active="false" position="0 0 0"></a-camera>
-	<!-- head occluder -->
-        <a-entity mindar-face-target="anchorIndex: 168">
-	  <a-gltf-model mindar-face-occluder position="0 -0.3 0.15"rotation="0 0 0" scale="0.065 0.065 0.065" src="#headModel"></a-gltf-model>
-        </a-entity>
-        <a-entity mindar-face-target="anchorIndex: 10">
-	  <a-gltf-model rotation="0 -0 0" position="0.018 -1.7 0.1" scale="2 2 2" src="#hatModel" class="hat1-entity" visible="false"></a-gltf-model>
-        </a-entity>
-        <a-entity mindar-face-target="anchorIndex: 10">
-	  <a-gltf-model rotation="0 -0 0" position="0 -0.2 -0.5" scale="0.008 0.008 0.008" src="#hatModel2" class="hat2-entity" visible="false"></a-gltf-model>
-        </a-entity>
-        <a-entity mindar-face-target="anchorIndex: 168">
-	  <a-gltf-model rotation="0 -0 0" position="0.018 -1.7 0.1" scale="2 2 2" src="#glassesModel" class="glasses1-entity" visible="false"></a-gltf-model>
-        </a-entity>
-        <a-entity mindar-face-target="anchorIndex: 0">
-	  <a-gltf-model rotation="-240 0 10" position="-0.085 0.25 -0.8" scale="0.025 0.025 0.025" src="#glassesModel2" class="glasses2-entity" visible="false"></a-gltf-model>
-        </a-entity>
-        <a-entity mindar-face-target="anchorIndex: 127">
-	  <a-gltf-model rotation="-0.1 -0 0" position="0 -0.3 -0.3" scale="0.05 0.05 0.05" src="#earringModel" class="earring-entity" visible="false"></a-gltf-model>
-        </a-entity>
-        <a-entity mindar-face-target="anchorIndex: 356">
-	  <a-gltf-model rotation="0.1 -0 0" position="0 -0.3 -0.3" scale="0.05 0.05 0.05" src="#earringModel" class="earring-entity" visible="false"></a-gltf-model>
-        </a-entity>
-      </a-scene>
+      <div class="demo" style="background: linear-gradient(#ffffff, #ada996); overflow-x: hidden;">
+        <span style="position: absolute; text-align: center; font-size: 60px; line-height: 80px; left: 20%; transform: translateX(-5%);">기생충<br>위조된<br><br><br><br>재학증명서<br></span>
+        <model-viewer ar camera-controls touch-action="pan" src="../src/3d-model/parasite-fakedocs.glb" ar alt="A 3D transparency test" style="background-color: unset;">
+          <button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 16px; right: 16px; ">
+            AR 실행하기
+        </button>
+        </model-viewer>
+      </div>
     </div>
-  </body>
+    </body>
 </html>
